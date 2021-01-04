@@ -1,0 +1,25 @@
+{
+    "name": "literacy-api",
+    "version": "1.0.0",
+    "description": "API server for literacy 2021",
+    "main": "src/app.js",
+    "scripts": {
+        "start": "node src/app.js",
+        "lint": "eslint src/ --quiet --fix"
+    },
+    "repository": "https://github.com/junki-gnct/literacy-202101.git",
+    "author": "Junki Tomatsu <me@junki-t.net>",
+    "license": "MIT",
+    "private": true,
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "express": "^4.17.1",
+        "log4js": "^6.3.0"
+    },
+    "devDependencies": {
+        "eslint": "^7.17.0",
+        "eslint-config-prettier": "^7.1.0",
+        "eslint-plugin-prettier": "^3.3.0",
+        "prettier": "^2.2.1"
+    }
+}

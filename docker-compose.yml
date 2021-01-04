@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/ssl:/etc/nginx/ssl
+      - ./www:/var/www/html
+    depends_on:
+      - api
+  api:
+    image: node:lts
+    volumes:
+      - ./api:/api
+    working_dir: "/api"
+    command: >
+      bash -c "npm i &&
+      npm start"
