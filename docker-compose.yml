@@ -17,6 +17,8 @@ services:
     volumes:
       - ./api:/api
     working_dir: "/api"
+    ports:
+      - 3000:3000
     command: >
       bash -c "npm i &&
       npm start"

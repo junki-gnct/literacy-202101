@@ -7,4 +7,16 @@ router.get('/', function (req, res) {
   });
 });
 
+router.ws('/ws', function (ws, req) {
+  ws.on('close', function () {
+    console.log('closed');
+  });
+
+  ws.on('message', function (msg) {
+    ws.send(msg);
+  });
+
+  ws.send('Hello!'); // called when connection is opened.
+});
+
 module.exports = router;
