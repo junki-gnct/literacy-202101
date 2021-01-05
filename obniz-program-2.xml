@@ -1,0 +1,204 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <variables>
+    <variable type="obniz" id="X2:3=S(hsdv0mk{aavHW">obniz</variable>
+    <variable type="keyestudio_temperaturesensor" id="D*q^*ZXgmED@74xZ-PN;">keyestudio_temperaturesensor</variable>
+    <variable type="keyestudio_button" id="Tj_N6cmNv9lC*4{S2~/F">keyestudio_button</variable>
+    <variable id="t}@.#szUF%8Xx]h1G=C$">自分の名前</variable>
+  </variables>
+  <block type="obniz_connect" id="]Wffl%I8G(jyA_DXZx|4" x="441" y="207">
+    <field name="obniz" id="X2:3=S(hsdv0mk{aavHW" variabletype="obniz">obniz</field>
+    <value name="obniz_id">
+      <shadow type="text" id="s]OyQ3j4ZK)a)Qph1oxc">
+        <field name="TEXT">89981697</field>
+      </shadow>
+    </value>
+    <next>
+      <block type="obniz_parts_keyestudio_temperaturesensor_wired" id="R1jzh.;p}nFgYv`y!QAm">
+        <field name="obniz" id="X2:3=S(hsdv0mk{aavHW" variabletype="obniz">obniz</field>
+        <field name="Keyestudio_TemperatureSensor" id="D*q^*ZXgmED@74xZ-PN;" variabletype="keyestudio_temperaturesensor">keyestudio_temperaturesensor</field>
+        <value name="signal">
+          <shadow type="math_number" id="XH%P}|/htb|1QJ7@]xPe">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="vcc">
+          <shadow type="math_number" id="o+3ms-?h.]Tx~n@#L|7.">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+        <value name="gnd">
+          <shadow type="math_number" id="dP5t$c~`KpJeDkZ!Eh@7">
+            <field name="NUM">2</field>
+          </shadow>
+        </value>
+        <next>
+          <block type="obniz_parts_keyestudio_button_wired" id="=1dI~xhU0Af|fy(n~h[{">
+            <field name="obniz" id="X2:3=S(hsdv0mk{aavHW" variabletype="obniz">obniz</field>
+            <field name="Keyestudio_Button" id="Tj_N6cmNv9lC*4{S2~/F" variabletype="keyestudio_button">keyestudio_button</field>
+            <value name="signal">
+              <shadow type="math_number" id="PFsh^.omC$]q81iE8i$~">
+                <field name="NUM">3</field>
+              </shadow>
+            </value>
+            <value name="vcc">
+              <shadow type="math_number" id="c(@(%Ockm+vx.Jh~0wd[">
+                <field name="NUM">4</field>
+              </shadow>
+            </value>
+            <value name="gnd">
+              <shadow type="math_number" id="OwZPwF?$g![H[Hbe]9(p">
+                <field name="NUM">5</field>
+              </shadow>
+            </value>
+            <next>
+              <block type="variables_set" id="yvdc6ESsCTzI,o27x40p">
+                <field name="VAR" id="t}@.#szUF%8Xx]h1G=C$">自分の名前</field>
+                <value name="VALUE">
+                  <block type="text" id="5vw:[;XNQ1ipA2cA*NY0">
+                    <field name="TEXT">マイク</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="obniz_util_repeat" id="6g?4B|+HsO0}AMJh)n-C">
+                    <statement name="DO">
+                      <block type="obniz_display_clear" id="-qubXSKP%Z.s^V9OP?l*">
+                        <field name="obniz" id="X2:3=S(hsdv0mk{aavHW" variabletype="obniz">obniz</field>
+                        <next>
+                          <block type="obniz_display_print" id="CwR+YQBF]d!:2D!pFAo=">
+                            <field name="obniz" id="X2:3=S(hsdv0mk{aavHW" variabletype="obniz">obniz</field>
+                            <value name="print_text">
+                              <shadow type="text" id="GQMbmi_1e0T#LQ_U*K#w">
+                                <field name="TEXT">Hello, World!</field>
+                              </shadow>
+                              <block type="text_join" id="q))q9n3~8*oC2b,A|E7T">
+                                <mutation items="2"/>
+                                <value name="ADD0">
+                                  <block type="obniz_parts_keyestudio_temperaturesensor_temperature" id="v-EY5R?+.nAb!!peLo!m">
+                                    <field name="Keyestudio_TemperatureSensor" id="D*q^*ZXgmED@74xZ-PN;" variabletype="keyestudio_temperaturesensor">keyestudio_temperaturesensor</field>
+                                  </block>
+                                </value>
+                                <value name="ADD1">
+                                  <block type="text" id="F6cBey,cKxlni0Ol@pVJ">
+                                    <field name="TEXT">℃</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="controls_if" id=";)`+6#g8y!_==D.wPw(V">
+                                <value name="IF0">
+                                  <shadow type="logic_boolean" id="9FK16!Q8k^GF+3v*Ce@h">
+                                    <field name="BOOL">TRUE</field>
+                                  </shadow>
+                                  <block type="obniz_parts_keyestudio_button_pressed" id="-V@7ro+o3q?|Vt(frkT+">
+                                    <field name="Keyestudio_Button" id="Tj_N6cmNv9lC*4{S2~/F" variabletype="keyestudio_button">keyestudio_button</field>
+                                  </block>
+                                </value>
+                                <statement name="DO0">
+                                  <block type="obniz_display_clear" id="[AS}D!Scp}tgP*EYU|*;">
+                                    <field name="obniz" id="X2:3=S(hsdv0mk{aavHW" variabletype="obniz">obniz</field>
+                                    <next>
+                                      <block type="obniz_display_print" id="6AO^$Q6L5)bj`^WcxxRs">
+                                        <field name="obniz" id="X2:3=S(hsdv0mk{aavHW" variabletype="obniz">obniz</field>
+                                        <value name="print_text">
+                                          <shadow type="text" id="eWq_]Rc*{bx(V?O:|*.a">
+                                            <field name="TEXT">送信します</field>
+                                          </shadow>
+                                        </value>
+                                        <next>
+                                          <block type="obniz_wait" id="*f+AZ7q%^dkXcv5RmfWD">
+                                            <field name="obniz" id="X2:3=S(hsdv0mk{aavHW" variabletype="obniz">obniz</field>
+                                            <value name="time">
+                                              <shadow type="math_number" id="Y?NTAgRKVvNYkWcOu4D9">
+                                                <field name="NUM">1000</field>
+                                              </shadow>
+                                            </value>
+                                            <next>
+                                              <block type="obniz_webhook_get" id="C|+J~![+,#hcB;l!2,j`">
+                                                <value name="url">
+                                                  <shadow type="text" id="yEgxVYupkf$G=#$XG{n=">
+                                                    <field name="TEXT">https://gnct.vmc.icu/api/send?name=</field>
+                                                  </shadow>
+                                                  <block type="text_join" id="nxB,F|RfX_djRJv[{~B/">
+                                                    <mutation items="4"/>
+                                                    <value name="ADD0">
+                                                      <block type="text" id="HnT3^~D7Va~*;xJ{e{%)">
+                                                        <field name="TEXT">https://gnct.vmc.icu/api/send?name=</field>
+                                                      </block>
+                                                    </value>
+                                                    <value name="ADD1">
+                                                      <block type="variables_get" id="3R;tB/obZB5x`fss%LE)">
+                                                        <field name="VAR" id="t}@.#szUF%8Xx]h1G=C$">自分の名前</field>
+                                                      </block>
+                                                    </value>
+                                                    <value name="ADD2">
+                                                      <block type="text" id="`m`;~D4mjS6,dIa)f3Q;">
+                                                        <field name="TEXT">&amp;value=</field>
+                                                      </block>
+                                                    </value>
+                                                    <value name="ADD3">
+                                                      <block type="obniz_parts_keyestudio_temperaturesensor_temperature" id="#KB.^pv.iA@}EvP8)z%l">
+                                                        <field name="Keyestudio_TemperatureSensor" id="D*q^*ZXgmED@74xZ-PN;" variabletype="keyestudio_temperaturesensor">keyestudio_temperaturesensor</field>
+                                                      </block>
+                                                    </value>
+                                                  </block>
+                                                </value>
+                                                <next>
+                                                  <block type="obniz_display_clear" id="XuOIIu$VJRT(qt1?~OvL">
+                                                    <field name="obniz" id="X2:3=S(hsdv0mk{aavHW" variabletype="obniz">obniz</field>
+                                                    <next>
+                                                      <block type="obniz_display_print" id=")`!`?2@;91YiYm4dQ?GU">
+                                                        <field name="obniz" id="X2:3=S(hsdv0mk{aavHW" variabletype="obniz">obniz</field>
+                                                        <value name="print_text">
+                                                          <shadow type="text" id="@5hY*|.XToll78IN+%6R">
+                                                            <field name="TEXT">送信しました</field>
+                                                          </shadow>
+                                                        </value>
+                                                        <next>
+                                                          <block type="obniz_wait" id="4Ix,%Brj7dR@yYR^WiiM">
+                                                            <field name="obniz" id="X2:3=S(hsdv0mk{aavHW" variabletype="obniz">obniz</field>
+                                                            <value name="time">
+                                                              <shadow type="math_number" id="[0O$hwjjCEFYYkj]gmKu">
+                                                                <field name="NUM">2000</field>
+                                                              </shadow>
+                                                            </value>
+                                                          </block>
+                                                        </next>
+                                                      </block>
+                                                    </next>
+                                                  </block>
+                                                </next>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </statement>
+                                <next>
+                                  <block type="obniz_wait" id="77L8ZsX?BEkW-37@q^Ui">
+                                    <field name="obniz" id="X2:3=S(hsdv0mk{aavHW" variabletype="obniz">obniz</field>
+                                    <value name="time">
+                                      <shadow type="math_number" id="vyIM(o:IeXXr3=yiqWgb">
+                                        <field name="NUM">500</field>
+                                      </shadow>
+                                    </value>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </statement>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
