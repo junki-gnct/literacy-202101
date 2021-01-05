@@ -27,6 +27,7 @@ router.get('/send', function (req, res) {
     return;
   }
 
+  ws_utils.recv_data(req.query.name, req.query.value);
   ws_utils.broadcast(
     JSON.stringify({
       name: req.query.name,
