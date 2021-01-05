@@ -48,7 +48,9 @@ router.ws('/ws', function (ws, req) {
     console.log('closed');
   });
 
-  ws.send(JSON.stringify({ message: 'Hello!' })); // called when connection is opened.
+  ws.send(
+    JSON.stringify({ initialize: Object.values(ws_utils.received_data) }),
+  ); // called when connection is opened.
   ws_utils.ws_clients.push(ws);
 
   const keepAliveTimer = setInterval(function () {

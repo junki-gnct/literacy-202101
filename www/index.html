@@ -66,68 +66,70 @@
         <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
         <script>
-            window.onload = (() => {
-                new Vue({
-                    el: '#app',
-                    vuetify: new Vuetify(),
-                    data: {
-                        websocket: null,
-                        users: {},
-                        isConnecting: true,
-                        isConnected: false,
-                        isDisconnected: false,
-                    },
-                    methods: {
-                        handleMessage: function(data) {
-                            if(data.name && data.value) {
-                                this.$set(this.users, data.name, { name: data.name, value: data.value });
-                            }
-                            /*
-                            if(data.message) {
-                                console.log(data.message);
-                                const name = Math.floor(Math.random() * Math.floor(125000));
-                                this.$set(this.users, name, { data: data.message });
-                            } else 
-                            */
+            new Vue({
+                el: '#app',
+                vuetify: new Vuetify(),
+                data: {
+                    websocket: null,
+                    users: {},
+                    isConnecting: true,
+                    isConnected: false,
+                    isDisconnected: false,
+                },
+                methods: {
+                    handleMessage: function(data) {
+                        if(data.name && data.value) {
+                            this.$set(this.users, data.name, { name: data.name, value: data.value });
+                        } else if(data.initialize) {
+                            data.initialize.forEach((value) => {
+                                this.$set(this.users, value.name, { name: value.name, value: value.value });
+                            })
                         }
-                    },
-
-                    //
-                    // 対応表
-                    //
-                    // isConnected, isConnecting, isDisconnected
-                    // 0            1             0               -> 接続中       (!isConnected && isConnecting && !isDisconnected)
-                    // 1            0             0               -> 接続済み     (isConnected && !isConnecting && !isDisconnected)
-                    // 0            0             1               -> 接続エラー   (!isConnected && !isConnecting && isDisconnected)
-                    // 1            0             1               -> 切断         (isConnected && !isConnecting && isDisconnected)
-                    //
-                    created: function() {
-                        this.websocket = new WebSocket('wss://' + location.hostname + '/api/ws');
-                        const webSocket = this.websocket;
-
-                        webSocket.onopen = ((e) => {
-                            this.isConnected = true;
-                            this.isConnecting = false;
-                            
-                        });
-
-                        webSocket.onmessage = ((e) => {
-                            if(e && e.data) {
-                                this.handleMessage(JSON.parse(e.data));
-                            }
-                        });
-
-                        webSocket.onerror = ((e) => {
-                            this.isConnected = false;
-                            this.isConnecting = false;
-                            this.isDisconnected = true;
-                        })
-
-                        webSocket.onclose = ((e) => {
-                            this.isDisconnected = false;
-                        })
+                        /*
+                        if(data.message) {
+                            console.log(data.message);
+                            const name = Math.floor(Math.random() * Math.floor(125000));
+                            this.$set(this.users, name, { data: data.message });
+                        } else 
+                        */
                     }
-                })
+                },
+
+                //
+                // 対応表
+                //
+                // isConnected, isConnecting, isDisconnected
+                // 0            1             0               -> 接続中       (!isConnected && isConnecting && !isDisconnected)
+                // 1            0             0               -> 接続済み     (isConnected && !isConnecting && !isDisconnected)
+                // 0            0             1               -> 接続エラー   (!isConnected && !isConnecting && isDisconnected)
+                // 1            0             1               -> 切断         (isConnected && !isConnecting && isDisconnected)
+                //
+                created: function() {
+                    this.websocket = new WebSocket('wss://' + location.hostname + '/api/ws');
+                    const webSocket = this.websocket;
+
+                    webSocket.onopen = ((e) => {
+                        this.isConnected = true;
+                        this.isConnecting = false;
+                        
+                    });
+
+                    webSocket.onmessage = ((e) => {
+                        if(e && e.data) {
+                            this.handleMessage(JSON.parse(e.data));
+                        }
+                    });
+
+                    webSocket.onerror = ((e) => {
+                        this.isConnected = false;
+                        this.isConnecting = false;
+                        this.isDisconnected = true;
+                    })
+
+                    webSocket.onclose = ((e) => {
+                        this.isDisconnected = false;
+                    })
+                }
             })
         </script>
     </body>

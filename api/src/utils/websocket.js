@@ -38,6 +38,7 @@ function broadcast(message) {
 
 module.exports = {
   ws_clients: ws_clients,
+  received_data: received_data,
   broadcast: broadcast,
   recv_data: recv_data,
 };
