@@ -55,6 +55,7 @@
                         users: {},
                         isConnecting: true,
                         isConnected: false,
+                        isDisconnected: false,
                     },
                     methods: {
                         handleMessage: function(data) {
@@ -67,6 +68,16 @@
                             }
                         }
                     },
+
+                    //
+                    // 対応表
+                    //
+                    // isConnected, isConnecting, isDisconnected
+                    // 0            1             0               -> 接続中       (!isConnected && isConnecting && !isDisconnected)
+                    // 1            0             0               -> 接続済み     (isConnected && !isConnecting && !isDisconnected)
+                    // 0            0             1               -> 接続エラー   (!isConnected && !isConnecting && isDisconnected)
+                    // 1            0             1               -> 切断         (isConnected && !isConnecting && isDisconnected)
+                    //
                     created: function() {
                         this.websocket = new WebSocket('wss://' + location.hostname + '/api/ws');
                         const webSocket = this.websocket;
@@ -74,6 +85,7 @@
                         webSocket.onopen = ((e) => {
                             this.isConnected = true;
                             this.isConnecting = false;
+                            
                         });
 
                         webSocket.onmessage = ((e) => {
@@ -85,11 +97,11 @@
                         webSocket.onerror = ((e) => {
                             this.isConnected = false;
                             this.isConnecting = false;
+                            this.isDisconnected = true;
                         })
 
                         webSocket.onclose = ((e) => {
-                            this.isConnected = false;
-                            this.isConnecting = false;
+                            this.isDisconnected = false;
                         })
                     }
                 })
