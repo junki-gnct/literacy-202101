@@ -14,6 +14,53 @@
                 <v-main>
                     <v-container>
                         <v-row class="text-center">
+                            <v-dialog v-model="dialog_connecting" persistent max-width="290">
+                                <v-card>
+                                    <v-card-title class="headline">
+                                        Connecting...
+                                    </v-card-title>
+                                    <v-card-text>サーバーへ接続中です...</v-card-text>
+                                </v-card>
+                            </v-dialog>
+                            
+                            <v-dialog v-model="dialog_disconnected" persistent max-width="290">
+                                <v-card>
+                                    <v-card-title class="headline">
+                                        Disconnected
+                                    </v-card-title>
+                                    <v-card-text>サーバーとの通信が切断されました。</v-card-text>
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <v-btn
+                                            color="green darken-1"
+                                            text
+                                            @click="click_reload"
+                                        >
+                                            再読み込み
+                                        </v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
+
+                            <v-dialog v-model="dialog_error" persistent max-width="290">
+                                <v-card>
+                                    <v-card-title class="headline">
+                                        Error
+                                    </v-card-title>
+                                    <v-card-text>サーバーへ接続できませんでした。</v-card-text>
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <v-btn
+                                            color="green darken-1"
+                                            text
+                                            @click="click_reload"
+                                        >
+                                            再読み込み
+                                        </v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
+
                             <v-col class="mb-5" cols="12">
                                 <h2 class="headline font-weight-bold mb-3">
                                     Log
@@ -72,11 +119,14 @@
                 data: {
                     websocket: null,
                     users: {},
-                    isConnecting: true,
-                    isConnected: false,
-                    isDisconnected: false,
+                    dialog_connecting: false,
+                    dialog_error: false,
+                    dialog_disconnected: false,
                 },
                 methods: {
+                    click_reload: function() {
+                        location.reload();
+                    },
                     handleMessage: function(data) {
                         if(data.name && data.value) {
                             this.$set(this.users, data.name, { name: data.name, value: data.value });
@@ -85,13 +135,6 @@
                                 this.$set(this.users, value.name, { name: value.name, value: value.value });
                             })
                         }
-                        /*
-                        if(data.message) {
-                            console.log(data.message);
-                            const name = Math.floor(Math.random() * Math.floor(125000));
-                            this.$set(this.users, name, { data: data.message });
-                        } else 
-                        */
                     }
                 },
 
@@ -109,9 +152,9 @@
                     const webSocket = this.websocket;
 
                     webSocket.onopen = ((e) => {
-                        this.isConnected = true;
-                        this.isConnecting = false;
-                        
+                        this.dialog_connecting = false;
+                        this.dialog_disconnected = false;
+                        this.dialog_error = false;
                     });
 
                     webSocket.onmessage = ((e) => {
@@ -121,13 +164,17 @@
                     });
 
                     webSocket.onerror = ((e) => {
-                        this.isConnected = false;
-                        this.isConnecting = false;
-                        this.isDisconnected = true;
+                        this.dialog_connecting = false;
+                        this.dialog_disconnected = false;
+                        this.dialog_error = true;
                     })
 
                     webSocket.onclose = ((e) => {
-                        this.isDisconnected = false;
+                        if(!this.dialog_error) {
+                            this.dialog_connecting = false;
+                            this.dialog_disconnected = true;
+                            this.dialog_error = false;
+                        }
                     })
                 }
             })
