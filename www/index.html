@@ -46,10 +46,54 @@
         <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
         <script>
-        new Vue({
-            el: '#app',
-            vuetify: new Vuetify(),
-        })
+            window.onload = (() => {
+                new Vue({
+                    el: '#app',
+                    vuetify: new Vuetify(),
+                    data: {
+                        websocket: null,
+                        users: {},
+                        isConnecting: true,
+                        isConnected: false,
+                    },
+                    methods: {
+                        handleMessage: function(data) {
+                            if(data.message) {
+                                console.log(data.message);
+                                const name = Math.floor(Math.random() * Math.floor(1250000));
+                                this.users[name] = {name: name, data: data.message};
+                            } else {
+                                // other process.
+                            }
+                        }
+                    },
+                    created: function() {
+                        this.websocket = new WebSocket('wss://' + location.hostname + '/api/ws');
+                        const webSocket = this.websocket;
+
+                        webSocket.onopen = ((e) => {
+                            this.isConnected = true;
+                            this.isConnecting = false;
+                        });
+
+                        webSocket.onmessage = ((e) => {
+                            if(e && e.data) {
+                                this.handleMessage(JSON.parse(e.data));
+                            }
+                        });
+
+                        webSocket.onerror = ((e) => {
+                            this.isConnected = false;
+                            this.isConnecting = false;
+                        })
+
+                        webSocket.onclose = ((e) => {
+                            this.isConnected = false;
+                            this.isConnecting = false;
+                        })
+                    }
+                })
+            })
         </script>
     </body>
 </html>

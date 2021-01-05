@@ -8,15 +8,21 @@ router.get('/', function (req, res) {
 });
 
 router.ws('/ws', function (ws, req) {
+  let isClosed = false;
   ws.on('close', function () {
+    isClosed = true;
     console.log('closed');
   });
 
-  ws.on('message', function (msg) {
-    ws.send(msg);
-  });
+  ws.send(JSON.stringify({ message: 'Hello!' })); // called when connection is opened.
 
-  ws.send('Hello!'); // called when connection is opened.
+  const keepAliveTimer = setInterval(function () {
+    if (isClosed) {
+      clearInterval(keepAliveTimer);
+      return;
+    }
+    ws.send(JSON.stringify({ message: 'KeepAlive' }));
+  }, 10 * 1000);
 });
 
 module.exports = router;
