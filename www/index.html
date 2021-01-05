@@ -13,6 +13,25 @@
                 <v-main>
                     <v-container>
                         <v-row class="text-center">
+                            <v-col class="mb-5" cols="12">
+                                <h2 class="headline font-weight-bold mb-3">
+                                    Log
+                                </h2>
+                                <v-row justify="center">
+                                    <v-col v-for="(value, key) in users" :key="key" cols="6">
+                                        <v-card color="#385F73" dark>
+                                            <v-card-title class="headline">
+                                                User: {{ key }}
+                                            </v-card-title>
+    
+                                            <v-card-subtitle>
+                                                Value: {{ value.data }}
+                                            </v-card-subtitle>
+                                        </v-card>
+                                    </v-col>
+                                </v-row>
+                            </v-col>
+
                             <v-col class="mb-4">
                                 <h1 class="display-2 font-weight-bold mb-3">
                                     Hello World!
@@ -61,11 +80,12 @@
                         handleMessage: function(data) {
                             if(data.message) {
                                 console.log(data.message);
-                                const name = Math.floor(Math.random() * Math.floor(1250000));
-                                this.users[name] = {name: name, data: data.message};
+                                const name = Math.floor(Math.random() * Math.floor(125000));
+                                this.$set(this.users, name, { data: data.message });
                             } else {
                                 // other process.
                             }
+                            console.log(this.users);
                         }
                     },
 
