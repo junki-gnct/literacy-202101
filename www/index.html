@@ -5,6 +5,7 @@
         <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+        <meta charset="utf-8">
         <title>Literacy 2020/01</title>
     </head>
     <body>
@@ -25,7 +26,7 @@
                                             </v-card-title>
     
                                             <v-card-subtitle>
-                                                Value: {{ value.data }}
+                                                Value: {{ value.value }}
                                             </v-card-subtitle>
                                         </v-card>
                                     </v-col>
@@ -78,14 +79,16 @@
                     },
                     methods: {
                         handleMessage: function(data) {
+                            if(data.name && data.value) {
+                                this.$set(this.users, data.name, { name: data.name, value: data.value });
+                            }
+                            /*
                             if(data.message) {
                                 console.log(data.message);
                                 const name = Math.floor(Math.random() * Math.floor(125000));
                                 this.$set(this.users, name, { data: data.message });
-                            } else {
-                                // other process.
-                            }
-                            console.log(this.users);
+                            } else 
+                            */
                         }
                     },
 

@@ -19,6 +19,26 @@ router.get('/broadcast', function (req, res) {
   });
 });
 
+router.get('/send', function (req, res) {
+  if (req.query.name == null || req.query.value == null) {
+    res.status(400).json({
+      message: 'Invalid parameters.',
+    });
+    return;
+  }
+
+  ws_utils.broadcast(
+    JSON.stringify({
+      name: req.query.name,
+      value: req.query.value,
+    }),
+  );
+
+  res.status(200).json({
+    message: 'OK',
+  });
+});
+
 router.ws('/ws', function (ws, req) {
   let isClosed = false;
   ws.on('close', function () {
