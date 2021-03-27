@@ -40,8 +40,25 @@ async function removeData(conn, name) {
   return count;
 }
 
+async function fetchData(conn, name, sort) {
+  const where_condition = name ? ` WHERE name=${conn.escape(name)}` : '';
+  const sort_c = sort ? ' DESC' : ' ASC';
+  const sql = `SELECT name, value, created_at FROM literacy_data${where_condition} ORDER BY created_at${sort_c};`;
+  const result = await mysqlPromise.query(conn, sql);
+  const data = [];
+  result.forEach((row) => {
+    data.push({
+      name: row.name,
+      value: row.value,
+      created_at: row.created_at,
+    });
+  });
+  return data;
+}
+
 module.exports = {
   connect: connect,
   prepareDB: prepareDB,
   removeData: removeData,
+  fetchData: fetchData,
 };

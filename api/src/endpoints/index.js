@@ -17,7 +17,7 @@ class IndexRoutes extends express.Router {
     this.get('/send', function (req, res) {
       if (req.query.name == null || req.query.value == null) {
         res.status(400).json({
-          message: 'Invalid parameters.',
+          message: 'Invalid parameters. [name and value]',
         });
         return;
       }
@@ -37,13 +37,50 @@ class IndexRoutes extends express.Router {
       });
     });
 
-    this.get('/remove', async function (req, res) {
+    this.get('/list', async function (req, res) {
       if (req.query.name == null && req.query.target == null) {
         res.status(400).json({
-          message: 'Invalid parameters.',
+          message: 'Invalid parameters. [name or target]',
         });
         return;
       }
+
+      if (req.query.name == null && req.query.target != 'all') {
+        res.status(400).json({
+          message: 'Target value is not allowed.',
+        });
+        return;
+      }
+
+      const sort = req.query.sort == 'desc';
+      const result = await database.fetchData(
+        conn,
+        req.query.name == null && req.query.target == 'all'
+          ? null
+          : req.query.name,
+        sort,
+      );
+
+      res.status(200).json({
+        count: result.length,
+        data: result,
+      });
+    });
+
+    this.get('/remove', async function (req, res) {
+      if (req.query.name == null && req.query.target == null) {
+        res.status(400).json({
+          message: 'Invalid parameters. [name or target]',
+        });
+        return;
+      }
+      if (req.query.name == null && req.query.target != 'all') {
+        res.status(400).json({
+          message: 'Target value is not allowed.',
+        });
+        return;
+      }
+
       const count = await database.removeData(
         conn,
         req.query.name == null && req.query.target == 'all'
