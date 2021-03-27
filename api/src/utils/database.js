@@ -41,14 +41,28 @@ async function removeData(conn, name) {
   return count;
 }
 
+async function removeDataById(conn, id) {
+  if (!id) return 0;
+  // eslint-disable-next-line quotes
+  const id_e = conn.escape(id).replace(/\'/g, '');
+  const count_sql = `SELECT COUNT(*) AS count FROM literacy_data WHERE id=${id_e};`;
+  console.log(count_sql);
+  const count = (await mysqlPromise.query(conn, count_sql))[0].count;
+  const sql = `DELETE FROM literacy_data WHERE id=${id_e};`;
+  console.log(sql);
+  await mysqlPromise.query(conn, sql);
+  return count;
+}
+
 async function fetchData(conn, name, sort) {
   const where_condition = name ? ` WHERE name=${conn.escape(name)}` : '';
   const sort_c = sort ? ' DESC' : ' ASC';
-  const sql = `SELECT name, value, created_at FROM literacy_data${where_condition} ORDER BY created_at${sort_c};`;
+  const sql = `SELECT id, name, value, created_at FROM literacy_data${where_condition} ORDER BY created_at${sort_c};`;
   const result = await mysqlPromise.query(conn, sql);
   const data = [];
   result.forEach((row) => {
     data.push({
+      id: row.id,
       name: row.name,
       value: isNaN(row.value) ? -1 : Number(row.value),
       created_at: new Date(row.created_at).toISOString(),
@@ -81,6 +95,7 @@ module.exports = {
   connect: connect,
   prepareDB: prepareDB,
   removeData: removeData,
+  removeDataById: removeDataById,
   fetchData: fetchData,
   fetchUsers: fetchUsers,
   addData: addData,

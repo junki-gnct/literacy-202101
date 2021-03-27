@@ -1,134 +1,131 @@
 <!DOCTYPE html>
 <html lang="ja">
-    <head>
-        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-        <meta charset="utf-8" />
-        <title>Literacy 2020/01</title>
-    </head>
-    <body>
-        <div id="app">
-            <v-app>
-                <v-main>
-                    <v-container>
-                        <v-row class="text-center">
-                            <v-col class="mb-4">
-                                <h1 class="display-2 font-weight-bold mb-3">
-                                    データ編集
-                                </h1>
-                                <h2 class="mb-3">
-                                    ユーザー: {{ user }}
-                                </h2>
-                            </v-col>
-                            <v-col class="mb-5" cols="12">
-                                <v-row justify="center">
-                                    <v-data-table
-                                        :headers="headers"
-                                        :items="data"
-                                        :items-per-page="20"
-                                        class="elevation-1"
-                                    >
-                                    <template v-slot:top>
-                                      </template>
-                                      <template v-slot:item.actions="{ item }">
-                                        <v-icon
-                                          small
-                                          @click="deleteItem(item)"
-                                        >
-                                          mdi-delete
-                                        </v-icon>
-                                      </template>
-                                    </v-data-table>
-                                </v-row>
-                            </v-col>
-                        </v-row>
-                    </v-container>
-                </v-main>
-            </v-app>
-        </div>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-promise/3.3.1/es6-promise.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.4/fetch.min.js" defer></script>
-        <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
-        <script>
-            new Vue({
-                el: '#app',
-                vuetify: new Vuetify(),
-                methods: {
-                    initialize () {
-                        this.data = [];
-                        const self = this;
-                        console.log(self);
-                        /*fetch("/api/users").then(function(resp) {
-                            resp.json().then(function(jsn) {
-                                jsn.users.forEach(function(usr) {
-                                    self.data.push({
-                                        name: usr
-                                    })
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <meta charset="utf-8" />
+    <title>Literacy 2020/01</title>
+</head>
+
+<body>
+    <div id="app">
+        <v-app>
+            <v-main>
+                <v-container>
+                    <v-row class="text-center">
+                        <v-col class="mb-4">
+                            <h1 class="display-2 font-weight-bold mb-3">
+                                データ編集
+                            </h1>
+                            <h2 class="mb-3">
+                                ユーザー: {{ user }}
+                            </h2>
+                        </v-col>
+                        <v-col class="mb-5" cols="12">
+                            <v-row justify="center">
+                                <v-data-table :headers="headers" :items="data" :items-per-page="20" class="elevation-1">
+                                    <template v-slot:top>
+                                    </template>
+                                    <template v-slot:item.actions="{ item }">
+                                        <v-icon small @click="deleteItem(item)">
+                                            mdi-delete
+                                        </v-icon>
+                                    </template>
+                                </v-data-table>
+                            </v-row>
+                        </v-col>
+                    </v-row>
+                </v-container>
+            </v-main>
+        </v-app>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-promise/3.3.1/es6-promise.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.4/fetch.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/url-search-params/1.1.0/url-search-params.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            vuetify: new Vuetify(),
+            methods: {
+                initialize() {
+                    this.data = [];
+                    const params = new URLSearchParams(window.location.search.substring(1));
+
+                    const self = this;
+                    this.user = params.get('name');
+                    if (this.user == undefined) {
+                        location.href = "/kanri/manage.html";
+                        return;
+                    }
+                    fetch("/api/list?name=" + this.user).then(function (resp) {
+                        resp.json().then(function (jsn) {
+                            jsn.data.forEach(function (val) {
+                                self.data.push({
+                                    id: val.id,
+                                    value: val.value,
+                                    date: new Date(val.created_at).toLocaleString()
                                 });
                             });
-                        });*/
-                        this.data = [
-                            {
-                                id: 1,
-                                date: "xxxx/yy/zz xx:dd:yy",
-                                value: "31.5"
-                            }
-                        ];
-                    },
-
-                    viewItem (item) {
-                        location.href = "/graph.html?name=" + item.name;
-                    },
-
-                    editItem (item) {
-                        location.href = "/kanri/list.html?name=" + item.name;
-                    },
-
-                    deleteItem (item) {
-                        if(confirm(item.date + "のデータを削除します。\n実行しますか？")) {
-                            /*fetch("/api/remove?name=" + item.name).then(function(response) { 
-                                response.json().then(function(jsn) {
-                                    alert("完了しました。");
-                                    location.reload();
-                                });
-                            });*/
-                        }
-                    },
+                        });
+                    });
                 },
-                created () {
-                    this.initialize();
+
+                viewItem(item) {
+                    location.href = "/graph.html?name=" + item.name;
                 },
-                data: function() {
-                    return {
-                        dialog: false,
-                        dialogDelete: false,
-                        headers: [
-                        {
-                                text: 'ID',
-                                align: 'start',
-                                value: 'id',
-                            },
-                            {
-                                text: '送信日時',
-                                align: 'start',
-                                value: 'date',
-                            },
-                            {
-                                text: '値',
-                                align: 'start',
-                                value: 'value',
-                            },
-                            { text: '操作', value: 'actions', sortable: false },
-                        ],
-                        data: [],
-                        user: "ゆーざー"
+
+                editItem(item) {
+                    location.href = "/kanri/list.html?name=" + item.name;
+                },
+
+                deleteItem(item) {
+                    if (confirm(item.date + "のデータを削除します。\n実行しますか？")) {
+                        fetch("/api/remove?id=" + item.id).then(function (response) {
+                            response.json().then(function (jsn) {
+                                alert("完了しました。");
+                                location.reload();
+                            });
+                        });
                     }
+                },
+            },
+            created() {
+                this.initialize();
+            },
+            data: function () {
+                return {
+                    dialog: false,
+                    dialogDelete: false,
+                    headers: [
+                        {
+                            text: 'ID',
+                            align: 'start',
+                            value: 'id',
+                        },
+                        {
+                            text: '送信日時',
+                            align: 'start',
+                            value: 'date',
+                        },
+                        {
+                            text: '値',
+                            align: 'start',
+                            value: 'value',
+                        },
+                        { text: '操作', value: 'actions', sortable: false },
+                    ],
+                    data: [],
+                    user: ''
                 }
-            })
-        </script>
-    </body>
+            }
+        })
+    </script>
+</body>
+
 </html>

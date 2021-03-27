@@ -83,12 +83,26 @@ class IndexRoutes extends express.Router {
     });
 
     this.get('/remove', async function (req, res) {
-      if (req.query.name == null && req.query.target == null) {
+      if (
+        req.query.name == null &&
+        req.query.target == null &&
+        req.query.id == null
+      ) {
         res.status(400).json({
-          message: 'Invalid parameters. [name or target]',
+          message: 'Invalid parameters. [name or target or id]',
         });
         return;
       }
+
+      if (req.query.id != null) {
+        const count = await database.removeDataById(conn, req.query.id);
+        res.status(200).json({
+          message: 'OK',
+          count: count,
+        });
+        return;
+      }
+
       if (req.query.name == null && req.query.target != 'all') {
         res.status(400).json({
           message: 'Target value is not allowed.',

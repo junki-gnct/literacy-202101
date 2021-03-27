@@ -32,6 +32,7 @@ services:
       npm start"
     environment:
       <<: *common-variables
+      TZ: 'Asia/Tokyo'
 
   db:
     image: mysql:5.7

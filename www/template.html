@@ -1,58 +1,62 @@
 <!DOCTYPE html>
 <html lang="ja">
-    <head>
-        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-        <meta charset="utf-8" />
-        <title>Literacy 2020/01</title>
-    </head>
-    <body>
-        <div id="app">
-            <v-app>
-                <v-main>
-                    <v-container>
-                        <v-row class="text-center">
-                            <v-col class="mb-4">
-                                <h1 class="display-2 font-weight-bold mb-3">
-                                    Hello World!
-                                </h1>
-                            </v-col>
 
-                            <v-col class="mb-5" cols="12">
-                                <h2 class="headline font-weight-bold mb-3">
-                                    Buttons
-                                </h2>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <meta charset="utf-8" />
+    <title>Literacy 2020/01</title>
+</head>
 
-                                <v-row justify="center">
-                                    <a href="https://yahoo.co.jp/">
-                                        <v-btn color="primary" elevation="2" class="subheading mx-3">
-                                            Button 1 (Yahoo)
-                                        </v-btn>
-                                    </a>
-                                    <a href="https://google.co.jp/" target="_blank" rel="noopener noreferrer">
-                                        <v-btn color="primary" elevation="2" class="subheading mx-3">
-                                            Button 2 (Google)
-                                        </v-btn>
-                                    </a>
-                                </v-row>
-                            </v-col>
-                        </v-row>
-                    </v-container>
-                </v-main>
-            </v-app>
-        </div>
+<body>
+    <div id="app">
+        <v-app>
+            <v-main>
+                <v-container>
+                    <v-row class="text-center">
+                        <v-col class="mb-4">
+                            <h1 class="display-2 font-weight-bold mb-3">
+                                Hello World!
+                            </h1>
+                        </v-col>
 
-        <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-promise/3.3.1/es6-promise.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.4/fetch.min.js" defer></script>
-        <script>
-            new Vue({
-                el: '#app',
-                vuetify: new Vuetify(),
-            })
-        </script>
-    </body>
+                        <v-col class="mb-5" cols="12">
+                            <h2 class="headline font-weight-bold mb-3">
+                                Buttons
+                            </h2>
+
+                            <v-row justify="center">
+                                <a href="https://yahoo.co.jp/">
+                                    <v-btn color="primary" elevation="2" class="subheading mx-3">
+                                        Button 1 (Yahoo)
+                                    </v-btn>
+                                </a>
+                                <a href="https://google.co.jp/" target="_blank" rel="noopener noreferrer">
+                                    <v-btn color="primary" elevation="2" class="subheading mx-3">
+                                        Button 2 (Google)
+                                    </v-btn>
+                                </a>
+                            </v-row>
+                        </v-col>
+                    </v-row>
+                </v-container>
+            </v-main>
+        </v-app>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-promise/3.3.1/es6-promise.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.4/fetch.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/url-search-params/1.1.0/url-search-params.js" defer></script>
+    <script>
+        new Vue({
+            el: '#app',
+            vuetify: new Vuetify(),
+        })
+    </script>
+</body>
+
 </html>
