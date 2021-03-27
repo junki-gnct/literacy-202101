@@ -10,6 +10,7 @@ async function connect() {
     password: process.env.MYSQL_PASSWORD,
     database: 'literacyDB',
     charset: 'utf8mb4',
+    timezone: 'jst',
   });
 
   return new Promise((resolve, reject) => {
@@ -47,13 +48,24 @@ async function fetchData(conn, name, sort) {
   const result = await mysqlPromise.query(conn, sql);
   const data = [];
   result.forEach((row) => {
+    // TODO: タイムゾーン関係の修正
     data.push({
       name: row.name,
-      value: row.value,
+      value: isNaN(row.value) ? -1 : Number(row.value),
       created_at: row.created_at,
     });
   });
   return data;
+}
+
+async function addData(conn, name, value) {
+  if (name == null || value == null) return;
+
+  const sql = `INSERT INTO literacy_data (name, value) VALUES (${conn.escape(
+    name,
+  )}, ${conn.escape(value)});`;
+  console.log(sql);
+  await mysqlPromise.query(conn, sql);
 }
 
 module.exports = {
@@ -61,4 +73,5 @@ module.exports = {
   prepareDB: prepareDB,
   removeData: removeData,
   fetchData: fetchData,
+  addData: addData,
 };

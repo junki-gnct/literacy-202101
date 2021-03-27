@@ -14,10 +14,17 @@ class IndexRoutes extends express.Router {
       });
     });
 
-    this.get('/send', function (req, res) {
+    this.get('/send', async function (req, res) {
       if (req.query.name == null || req.query.value == null) {
         res.status(400).json({
           message: 'Invalid parameters. [name and value]',
+        });
+        return;
+      }
+
+      if (isNaN(req.query.value)) {
+        res.status(400).json({
+          message: 'Invalid parameters. [value is not a number.]',
         });
         return;
       }
@@ -30,7 +37,7 @@ class IndexRoutes extends express.Router {
         }),
       );
 
-      // save data if the value is number.
+      await database.addData(conn, req.query.name, req.query.value);
 
       res.status(200).json({
         message: 'OK',

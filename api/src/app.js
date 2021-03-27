@@ -50,6 +50,11 @@
   await database.prepareDB(connection);
   console.log('OK.');
 
+  // keepalive timer.
+  setInterval(function () {
+    connection.query('SELECT 1');
+  }, 5000);
+
   // Routing settings.
   const index = require('./endpoints');
   const template = require('./endpoints/template');
