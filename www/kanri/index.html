@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+        <meta charset="utf-8" />
+        <title>Literacy 2020/01</title>
+    </head>
+    <body>
+        <div id="app">
+            <v-app>
+                <v-main>
+                    <v-container>
+                        <v-row class="text-center">
+                            <v-col class="mb-4">
+                                <h1 class="display-2 font-weight-bold mb-3">
+                                    管理画面
+                                </h1>
+                            </v-col>
+
+                            <v-col class="mb-5" cols="12">
+                                <v-row justify="center">
+                                    <a href="./allview.html">
+                                        <v-btn color="primary" elevation="2" class="subheading mx-3">
+                                            全データ表示
+                                        </v-btn>
+                                    </a>
+                                    <a href="./manage.html">
+                                        <v-btn color="primary" elevation="2" class="subheading mx-3">
+                                            データ管理
+                                        </v-btn>
+                                    </a>
+                                    <a href="#" v-on:click="all_remove()">
+                                        <v-btn color="primary" elevation="2" class="subheading mx-3">
+                                            全データ削除
+                                        </v-btn>
+                                    </a>
+                                </v-row>
+                            </v-col>
+                        </v-row>
+                    </v-container>
+                </v-main>
+            </v-app>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-promise/3.3.1/es6-promise.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.4/fetch.min.js" defer></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+        <script>
+            new Vue({
+                el: '#app',
+                vuetify: new Vuetify(),
+                methods: {
+                    all_remove: function() {
+                        if(confirm("すべてのデータを削除します。\n実行しますか？")) {
+                            fetch("/api/remove?target=all").then(function(response) { 
+                                response.json().then(function(jsn) {
+                                    alert("完了しました。");
+                                });
+                            });
+                        }
+                    },
+                }
+            })
+        </script>
+    </body>
+</html>

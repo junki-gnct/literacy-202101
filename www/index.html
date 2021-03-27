@@ -62,46 +62,18 @@
                             </v-dialog>
 
                             <v-col class="mb-5" cols="12">
-                                <h2 class="headline font-weight-bold mb-3">
-                                    Log
-                                </h2>
                                 <v-row justify="center">
-                                    <v-col v-for="(value, key) in users" :key="key" cols="6">
+                                    <v-col v-for="(value, key) in users" :key="key" cols="3">
                                         <v-card color="#385F73" dark>
                                             <v-card-title class="headline">
-                                                User: {{ key }}
+                                                {{ key }} さん
                                             </v-card-title>
     
                                             <v-card-subtitle>
-                                                Value: {{ value.value }}
+                                                {{ value.value }} ℃
                                             </v-card-subtitle>
                                         </v-card>
                                     </v-col>
-                                </v-row>
-                            </v-col>
-
-                            <v-col class="mb-4">
-                                <h1 class="display-2 font-weight-bold mb-3">
-                                    Hello World!
-                                </h1>
-                            </v-col>
-
-                            <v-col class="mb-5" cols="12">
-                                <h2 class="headline font-weight-bold mb-3">
-                                    Buttons
-                                </h2>
-
-                                <v-row justify="center">
-                                    <a href="https://yahoo.co.jp/">
-                                        <v-btn color="primary" elevation="2" class="subheading mx-3">
-                                            Button 1 (Yahoo)
-                                        </v-btn>
-                                    </a>
-                                    <a href="https://google.co.jp/" target="_blank" rel="noopener noreferrer">
-                                        <v-btn color="primary" elevation="2" class="subheading mx-3">
-                                            Button 2 (Google)
-                                        </v-btn>
-                                    </a>
                                 </v-row>
                             </v-col>
                         </v-row>

@@ -74,6 +74,14 @@ class IndexRoutes extends express.Router {
       });
     });
 
+    this.get('/users', async function (req, res) {
+      const result = await database.fetchUsers(conn);
+      res.status(200).json({
+        count: result.length,
+        users: result,
+      });
+    });
+
     this.get('/remove', async function (req, res) {
       if (req.query.name == null && req.query.target == null) {
         res.status(400).json({

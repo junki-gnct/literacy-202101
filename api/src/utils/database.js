@@ -48,12 +48,21 @@ async function fetchData(conn, name, sort) {
   const result = await mysqlPromise.query(conn, sql);
   const data = [];
   result.forEach((row) => {
-    // TODO: タイムゾーン関係の修正
     data.push({
       name: row.name,
       value: isNaN(row.value) ? -1 : Number(row.value),
-      created_at: row.created_at,
+      created_at: new Date(row.created_at).toISOString(),
     });
+  });
+  return data;
+}
+
+async function fetchUsers(conn) {
+  const sql = 'SELECT DISTINCT name FROM literacy_data;';
+  const result = await mysqlPromise.query(conn, sql);
+  const data = [];
+  result.forEach((row) => {
+    data.push(row.name);
   });
   return data;
 }
@@ -73,5 +82,6 @@ module.exports = {
   prepareDB: prepareDB,
   removeData: removeData,
   fetchData: fetchData,
+  fetchUsers: fetchUsers,
   addData: addData,
 };
