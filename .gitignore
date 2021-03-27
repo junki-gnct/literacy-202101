@@ -1,3 +1,10 @@
+# docker-compose.yml
+/docker-compose.yml
+
+# mysql data folder
+/mysql/data/*
+!/mysql/data/.gitkeep
+
 # node.js modules folder
 */**/node_modules
 
