@@ -56,7 +56,7 @@ async function removeDataById(conn, id) {
 
 async function fetchData(conn, name, sort) {
   const where_condition = name ? ` WHERE name=${conn.escape(name)}` : '';
-  const sort_c = sort ? ' DESC' : ' ASC';
+  const sort_c = sort ? ' ASC' : ' DESC';
   const sql = `SELECT id, name, value, created_at FROM literacy_data${where_condition} ORDER BY created_at${sort_c};`;
   const result = await mysqlPromise.query(conn, sql);
   const data = [];

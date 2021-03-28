@@ -59,7 +59,7 @@ class IndexRoutes extends express.Router {
         return;
       }
 
-      const sort = req.query.sort == 'desc';
+      const sort = req.query.sort == 'asc';
       const result = await database.fetchData(
         conn,
         req.query.name == null && req.query.target == 'all'

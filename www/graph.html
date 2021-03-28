@@ -32,13 +32,19 @@
                                 </div>
                             </v-row>
 
-                            <v-row justify="center" style="padding-top: 20px;" v-if="name != '' && data.length <= 0">
+                            <v-row justify="center" style="padding-top: 20px;" v-if="!processing && (name != null && name != '') && data.length <= 0">
                                 <h2 class="mb-6">
                                     データがみつかりませんでした。
                                 </h2>
                             </v-row>
 
-                            <v-row justify="center" style="padding-top: 20px;" v-if="name == ''">
+                            <v-row justify="center" style="padding-top: 20px;" v-if="processing && (name != null && name != '') && data.length <= 0">
+                                <h2 class="mb-6">
+                                    データを検索しています...
+                                </h2>
+                            </v-row>
+
+                            <v-row justify="center" style="padding-top: 20px;" v-if="name == '' || name == null">
                                 <h2 class="mb-6">
                                     名前を入力してください。
                                 </h2>
@@ -48,6 +54,12 @@
                                 <h2 class="mb-6">
                                     グラフ
                                 </h2>
+                            </v-row>
+
+                            <v-row justify="center" style="padding-top: 20px;" v-if="data.length > 0">
+                                <div style="width: 100%; max-width: 600px">
+                                    <canvas id="myChart" ref="chart_cnv"></canvas>
+                                </div>
                             </v-row>
 
                             <v-row justify="center" style="padding-top: 20px;" v-if="data.length > 0">
@@ -81,12 +93,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-promise/3.3.1/es6-promise.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.4/fetch.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/url-search-params/1.1.0/url-search-params.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
     <script>
         new Vue({
             el: '#app',
             vuetify: new Vuetify(),
             data: function () {
                 return {
+                    processing: false,
                     name: '',
                     headers: [
                         {
@@ -111,16 +125,51 @@
             created() {
                 this.initialize();
             },
+            updated() {
+                this.display_graph();
+            },
             methods: {
                 initialize() {
                     const params = new URLSearchParams(window.location.search.substring(1));
                     this.name = params.get('name');
                     this.click_search();
                 },
+                getTime(date) {
+                    return ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2) + ":" + ("0" + date.getSeconds()).slice(-2)
+                },
+                display_graph() {
+                    if (this.name == null) return;
+                    if (this.name == "") return;
+                    if (document.getElementById('myChart') == null) return;
+                    const ctx = document.getElementById('myChart').getContext('2d');
+
+                    const labels = [];
+                    const data = [];
+                    const self = this;
+                    this.data.forEach(function(val) {
+                        labels.unshift(self.getTime(new Date(val.date)));
+                        data.unshift(val.value);
+                    })
+                    console.log(labels);
+
+                    const myChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: '温度',
+                                data: data,
+                                lineTension: 0,
+                            }]
+                        }
+                    });
+                },
                 click_search() {
-                    history.replaceState('', 'Literacy 2021/03', '/graph.html?name=' + this.name);
+                    if (this.name == null) return;
+                    history.replaceState('', 'Literacy 2021/03', '/graph.html' + this.name ? '?name=' + this.name : '');
                     if (this.name == "") return;
 
+                    this.processing = true;
                     this.data = [];
                     const self = this;
                     fetch('/api/list?name=' + this.name).then(function (res) {
@@ -132,6 +181,7 @@
                                     date: new Date(val.created_at).toLocaleString()
                                 })
                             })
+                            self.processing = false;
                         });
                     })
                 }
